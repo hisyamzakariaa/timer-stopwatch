@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react"
 
 export default function Stopwatch(){
-    const [initialTimer, setInitialTimer] = useState('00.00')
+    const [initialTimer, setInitialTimer] = useState(0.00)
     const [isActive, setIsActive] = useState(false)
     const timerInput = useRef()
 
     function handleReset(){
-        setInitialTimer('00:00')
+        setInitialTimer(0.00)
+        setIsActive(false)
     }
 
     useEffect(() => {
@@ -23,7 +24,7 @@ export default function Stopwatch(){
             clearInterval(timer)
         }
         
-    })
+    },[isActive])
 
     function handleInput(){
         setInitialTimer(timerInput.current.value) 
@@ -33,7 +34,7 @@ export default function Stopwatch(){
         setIsActive(prevState => !prevState)
     }
 
-
+    console.log(isActive)
     return( 
         <div>
         <h1>Stopwatch</h1>
@@ -42,6 +43,7 @@ export default function Stopwatch(){
             type="number" 
             onChange={handleInput} 
             ref={timerInput} 
+            placeholder="Stopwatch value"
         />
         <p>
         <button onClick={handleStart}>{isActive ? 'Pause' : 'Start'}</button>
